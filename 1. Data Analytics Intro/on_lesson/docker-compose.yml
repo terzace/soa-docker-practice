@@ -1,0 +1,24 @@
+version: '1'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      # mount named volume
+      - ./data:/var/lib/postgresql/data
+      # do initialization
+      - ./ddl_script.sql:/docker-entrypoint-initdb.d/ddl_script.sql
+      # insert synt data
+      - ./insert_data_script.sql:/var/lib/postgresql/insert_data_script.sql
+      # mount synt data
+      - ./synt_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+# volumes:
+#   data:
